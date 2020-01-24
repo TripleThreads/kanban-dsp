@@ -6,7 +6,7 @@ import (
 )
 
 func ConnectToMysql() *gorm.DB {
-	DB, err := gorm.Open("mysql", "webuser:root@/kanban")
+	DB, err := gorm.Open("mysql", "webuser:root@/kanban?charset=utf8&parseTime=True")
 	if err != nil {
 		fmt.Print(err.Error())
 		panic("database connection failed")
