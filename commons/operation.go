@@ -16,7 +16,8 @@ type Operation struct {
 func GetOperations(datetime time.Time) []Operation {
 	db := config.ConnectToMysql()
 	var operations []Operation
-	db.Where("sequence > ?", datetime).Find(&operations)
+	db.Where("sequence > DATE(?)", datetime).Find(&operations)
+	fmt.Println("latest ", operations)
 	_ = db.Close()
 	return operations
 }
@@ -30,6 +31,7 @@ func CreateOperation(operation Operation) {
 func GetLatestOperation() Operation {
 	db := config.ConnectToMysql()
 	var operation Operation
-	db.Last(&operation)
+	db.First(&operation)
+	fmt.Println("LATEST", operation)
 	return operation
 }

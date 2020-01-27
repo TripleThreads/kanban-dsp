@@ -2,11 +2,15 @@ package main
 
 import (
 	. "github.com/gorilla/mux"
+	. "kanban-distributed-system/message-queue"
 	. "kanban-distributed-system/migration"
 	. "kanban-distributed-system/request-handlers"
 	. "kanban-distributed-system/utility"
 	"log"
+	"math/rand"
 	. "net/http"
+	"strconv"
+	"time"
 )
 
 func routes() *Router {
@@ -30,7 +34,25 @@ func routes() *Router {
 
 func main() {
 	InitialMigration()
-	str := RegisterServer()
 
-	log.Fatal(ListenAndServe(str, routes()))
+	rand.Seed(time.Now().UnixNano())
+
+	port := 10000 + rand.Intn(1000)
+
+	PORT = ":" + strconv.FormatInt(int64(port), 10)
+
+	connection := CreateConnection()
+
+	writeChan := CreateChannel(connection, PORT)
+
+	channel := CreateChannel(connection, PORT)
+
+	go ConsumeMessage(channel, PORT)
+
+	RegisterServer(PORT)
+
+	go UpdateMe(writeChan, PORT)
+
+	log.Fatal(ListenAndServe(PORT, routes()))
+
 }

@@ -2,19 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e2b9424-da92-4d37-b2e2-e20bd42ed62c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/commons/message.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/commons/operation.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/main/middleware.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/message-queue/message-que.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/message-queue/translate-message.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/request-handlers/project-handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/request-handlers/task-handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utility/initialize.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/commons/operation.go" beforeDir="false" afterPath="$PROJECT_DIR$/commons/operation.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/db_connection.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/db_connection.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/main/middleware.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/main/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migration/migrations.go" beforeDir="false" afterPath="$PROJECT_DIR$/migration/migrations.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/message-queue/message-que.go" beforeDir="false" afterPath="$PROJECT_DIR$/message-queue/message-que.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/message-queue/translate-message.go" beforeDir="false" afterPath="$PROJECT_DIR$/message-queue/translate-message.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/models/project.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/project.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/task.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utility/initialize.go" beforeDir="false" afterPath="$PROJECT_DIR$/utility/initialize.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,10 +124,10 @@
       <screen x="0" y="0" width="1366" height="732" />
     </state>
     <state width="1320" height="172" key="GridCell.Tab.0.right/0.0.1366.732@0.0.1366.732" timestamp="1580065103555" />
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1579895396253">
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1580131196865">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1579895396253" />
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1580131196865" />
     <state x="429" y="0" key="refactoring.ChangeSignatureDialog" timestamp="1580126035636">
       <screen x="0" y="0" width="1366" height="732" />
     </state>

@@ -7,6 +7,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	. "kanban-distributed-system/commons"
 	. "kanban-distributed-system/config"
+	"kanban-distributed-system/utility"
 	"time"
 )
 
@@ -87,7 +88,7 @@ func DeleteProject(id string) []byte {
 func LogOperation(body []byte, OpType string, DataType string) []byte {
 	var operations []Operation
 	operations = append(operations, Operation{Data: body, OpType: OpType, DataType: DataType, Sequence: time.Now()})
-	message := Message{RequestType: "SYNC", Operations: operations}
+	message := Message{RequestType: "SYNC", Operations: operations, Port: utility.PORT}
 	msg, _ := json.Marshal(message)
 	CreateOperation(operations[0])
 	return msg

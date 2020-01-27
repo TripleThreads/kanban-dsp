@@ -26,9 +26,10 @@ func HandleError(err error) {
 
 func AddServer(port string) {
 	println("Registering ", port)
+	connection := CreateConnection() // message queue
+
 	server = append(server, port)
 	msg, err := json.Marshal(server)
-	channel := CreateChannel(port)
 
 	var operations []Operation
 	operations = append(operations, Operation{
@@ -43,16 +44,16 @@ func AddServer(port string) {
 	}
 	msg, _ = json.Marshal(message)
 	HandleError(err)
-	for p := range server {
-		println(msg, p)
-		PublishMessage(msg, channel)
+	for _, p := range server {
+		channel := CreateChannel(connection, p)
+		PublishMessage(channel, msg, p)
+		_ = channel.Close()
 	}
 
 }
 
 func handleRequest() *Router {
 	router := NewRouter()
-
 	router.HandleFunc("/", func(writer ResponseWriter, request *Request) {
 		body, err := ioutil.ReadAll(request.Body)
 		defer request.Body.Close()
