@@ -2,12 +2,10 @@ package models
 
 import (
 	"encoding/json"
-	"github.com/gorilla/mux"
+	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"io/ioutil"
 	. "kanban-distributed-system/config"
-	"net/http"
 	"time"
 )
 
@@ -16,70 +14,63 @@ type Task struct {
 	Title     string    `json:"title"`
 	Period    time.Time `json:"time"`
 	ProjectId uint
-	Project   Project `gorm:"foreignkey:ProjectId"`
+	Project   Project `gorm:"association_foreignkey:Id"`
+	Stage     uint8
 }
 
 // Get list of tasks
-func GetTasks(w http.ResponseWriter, r *http.Request) {
+func GetTasks() []Task {
 	db := ConnectToMysql()
 	var tasks []Task
 	db.Find(&tasks)
-	json.NewEncoder(w).Encode(tasks)
 	_ = db.Close()
+	return tasks
 }
 
 // Get single task
-func GetTask(w http.ResponseWriter, r *http.Request) {
+func GetTask(id string) Task {
 	db := ConnectToMysql()
-	vars := mux.Vars(r)
-	id := vars["id"]
 	var task Task
 	db.Where("id = ?", id).Find(&task)
-	json.NewEncoder(w).Encode(task)
 	_ = db.Close()
+	return task
 }
 
 // new task
-func CreateTask(w http.ResponseWriter, r *http.Request) {
-	var task Task
+func CreateTask(task Task) []byte {
 	db := ConnectToMysql()
-	body, err := ioutil.ReadAll(r.Body)
-	defer r.Body.Close()
-
-	if err != nil || json.Unmarshal(body, &task) != nil {
-		http.Error(w, err.Error(), 500)
-		return
-	}
-
 	db.Create(&task)
-	json.NewEncoder(w).Encode(task)
 	_ = db.Close()
+	msg, err := json.Marshal(task)
+	checkError(err)
+	LogOperation(msg, "CREATE", "TASK")
+	return msg
 }
 
 // delete task
-func DeleteTask(w http.ResponseWriter, r *http.Request) {
+func DeleteTask(id string) []byte {
 	db := ConnectToMysql()
-	vars := mux.Vars(r)
-	id := vars["id"]
 	var task Task
-	db.Where("id = ?", id).Find(task)
+	db.Where("id = ?", id).Find(&task)
 	db.Delete(task)
 	_ = db.Close()
+	msg, err := json.Marshal(task)
+	checkError(err)
+	LogOperation(msg, "DELETE", "TASK")
+	return msg
 }
 
 // edit task
-func UpdateTask(w http.ResponseWriter, r *http.Request) {
+func UpdateTask(id string, task Task) []byte {
 	db := ConnectToMysql()
-	vars := mux.Vars(r)
-	id := vars["id"]
-	title := vars["title"]
-	period := vars["period"]
-	var task Task
-	db.Where("id = ?", id).Find(&task)
-	task.Title = title
-	layout := "2006-01-02T15:04:05.000Z"
-
-	// watch out for the following line might cause problem
-	task.Period, _ = time.Parse(layout, period)
+	var tk Task
+	db.Where("id = ?", id).Find(&tk)
+	fmt.Println(id)
+	fmt.Println(task)
+	db.Model(&tk).Updates(&task)
 	_ = db.Close()
+	msg, err := json.Marshal(task)
+	checkError(err)
+	LogOperation(msg, "CREATE", "TASK")
+	return msg
 }

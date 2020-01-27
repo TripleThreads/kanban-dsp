@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="0e2b9424-da92-4d37-b2e2-e20bd42ed62c" name="Default Changelist" comment="initial commit">
-      <change afterPath="$PROJECT_DIR$/migration/migrations.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/models/task.go" afterDir="false" />
+    <list default="true" id="0e2b9424-da92-4d37-b2e2-e20bd42ed62c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/commons/message.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/commons/operation.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/main/middleware.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/message-queue/message-que.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/message-queue/translate-message.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/request-handlers/project-handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/request-handlers/task-handler.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utility/initialize.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/db_connection.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/db_connection.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/main/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/Title.go" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/projects/project.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/project.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migration/migrations.go" beforeDir="false" afterPath="$PROJECT_DIR$/migration/migrations.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/project.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/project.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/task.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/task.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,19 +52,25 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="go.import.settings.migrated" value="true" />
-    <property name="last_opened_file_path" value="$USER_HOME$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/models" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/commons" />
+      <recent name="$PROJECT_DIR$/utility" />
       <recent name="$PROJECT_DIR$/migration" />
       <recent name="$PROJECT_DIR$/config" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/models" />
+      <recent name="$PROJECT_DIR$/main" />
     </key>
   </component>
   <component name="RunManager">
     <configuration name="go build kanban-distributed-system/main" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
       <module name="kanban-distributed-system" />
       <working_directory value="$PROJECT_DIR$/" />
-      <kind value="PACKAGE" />
+      <kind value="FILE" />
       <filePath value="$PROJECT_DIR$/main/server.go" />
       <package value="kanban-distributed-system/main" />
       <directory value="$PROJECT_DIR$/" />
@@ -87,36 +99,46 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="initial commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="initial commit" />
+    <MESSAGE value="task is added&#10;bug fixed" />
+    <MESSAGE value="tested and working for single process" />
+    <option name="LAST_COMMIT_MESSAGE" value="tested and working for single process" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="281" y="0" key="CommitChangelistDialog2" timestamp="1578923990604">
+    <state x="384" y="1" width="596" height="731" key="#go_build_kanban-distributed-system/main" timestamp="1579985639235">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="281" y="0" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1578923990604" />
-    <state width="1320" height="172" key="GridCell.Tab.0.bottom" timestamp="1579895332573">
+    <state x="384" y="1" width="596" height="731" key="#go_build_kanban-distributed-system/main/0.0.1366.732@0.0.1366.732" timestamp="1579985639235" />
+    <state x="281" y="0" key="CommitChangelistDialog2" timestamp="1580131192791">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state width="1320" height="172" key="GridCell.Tab.0.bottom/0.0.1366.732@0.0.1366.732" timestamp="1579895332573" />
-    <state width="1320" height="172" key="GridCell.Tab.0.center" timestamp="1579895332572">
+    <state x="281" y="0" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1580131192791" />
+    <state width="1320" height="172" key="GridCell.Tab.0.bottom" timestamp="1580065103556">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state width="1320" height="172" key="GridCell.Tab.0.center/0.0.1366.732@0.0.1366.732" timestamp="1579895332572" />
-    <state width="1320" height="172" key="GridCell.Tab.0.left" timestamp="1579895332572">
+    <state width="1320" height="172" key="GridCell.Tab.0.bottom/0.0.1366.732@0.0.1366.732" timestamp="1580065103556" />
+    <state width="1320" height="172" key="GridCell.Tab.0.center" timestamp="1580065103552">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state width="1320" height="172" key="GridCell.Tab.0.left/0.0.1366.732@0.0.1366.732" timestamp="1579895332572" />
-    <state width="1320" height="172" key="GridCell.Tab.0.right" timestamp="1579895332572">
+    <state width="1320" height="172" key="GridCell.Tab.0.center/0.0.1366.732@0.0.1366.732" timestamp="1580065103552" />
+    <state width="1320" height="172" key="GridCell.Tab.0.left" timestamp="1580065103549">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state width="1320" height="172" key="GridCell.Tab.0.right/0.0.1366.732@0.0.1366.732" timestamp="1579895332572" />
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1578923998778">
+    <state width="1320" height="172" key="GridCell.Tab.0.left/0.0.1366.732@0.0.1366.732" timestamp="1580065103549" />
+    <state width="1320" height="172" key="GridCell.Tab.0.right" timestamp="1580065103555">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1578923998778" />
-    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup" timestamp="1579887390691">
+    <state width="1320" height="172" key="GridCell.Tab.0.right/0.0.1366.732@0.0.1366.732" timestamp="1580065103555" />
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1579895396253">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup/0.0.1366.732@0.0.1366.732" timestamp="1579887390691" />
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1579895396253" />
+    <state x="429" y="0" key="refactoring.ChangeSignatureDialog" timestamp="1580126035636">
+      <screen x="0" y="0" width="1366" height="732" />
+    </state>
+    <state x="429" y="0" key="refactoring.ChangeSignatureDialog/0.0.1366.732@0.0.1366.732" timestamp="1580126035636" />
+    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup" timestamp="1580115199004">
+      <screen x="0" y="0" width="1366" height="732" />
+    </state>
+    <state x="346" y="53" width="672" height="678" key="search.everywhere.popup/0.0.1366.732@0.0.1366.732" timestamp="1580115199004" />
   </component>
 </project>

@@ -3,12 +3,11 @@ package models
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gorilla/mux"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"io/ioutil"
+	. "kanban-distributed-system/commons"
 	. "kanban-distributed-system/config"
-	. "net/http"
+	"time"
 )
 
 type Project struct {
@@ -17,77 +16,79 @@ type Project struct {
 	Tasks []Task
 }
 
-// get list of project
-func GetProjects(w ResponseWriter, r *Request) {
+func checkError(err error) {
+	if err != nil {
+		println(err)
+	}
+}
+
+func GetProjects() []Project {
 	db := ConnectToMysql()
 	var projects []Project
 	db.Find(&projects)
-	json.NewEncoder(w).Encode(projects)
 	_ = db.Close()
+	return projects
 }
 
-// get single project
-func GetProject(w ResponseWriter, r *Request) {
+func GetProject(id string) Project {
 	var project Project
 	var tasks []Task
+
 	db := ConnectToMysql()
-	vars := mux.Vars(r)
-	id := vars["id"]
+	println(id)
 	db.Where("id = ?", id).Find(&project)
-	db.Where("project_id = ?", project.ID).Find(&tasks)
+	println(id)
+	db.Where("project_id = ?", id).Find(&tasks)
 	project.Tasks = tasks
 	fmt.Println(tasks)
-	json.NewEncoder(w).Encode(project)
 	_ = db.Close()
+	return project
 }
 
-// new project
-func CreateProject(w ResponseWriter, r *Request) {
-	var project Project
+func CreateProject(project Project) []byte {
 	db := ConnectToMysql()
-	body, err := ioutil.ReadAll(r.Body)
-	defer r.Body.Close()
-
-	if err != nil || json.Unmarshal(body, &project) != nil {
-		Error(w, err.Error(), 500)
-		return
-	}
-
 	db.Create(&project)
-	json.NewEncoder(w).Encode(project)
+	body, err := json.Marshal(project)
+	checkError(err)
+	// LOG CURRENT OPERATION
+	msg := LogOperation(body, "CREATE", "PROJECT")
 	_ = db.Close()
+	return msg
 }
 
-// delete project
-func DeleteProject(w ResponseWriter, r *Request) {
+func UpdateProject(id string, project Project) []byte {
 	db := ConnectToMysql()
-	vars := mux.Vars(r)
-	id := vars["id"]
+	var pr Project
+	db.Where("id = ?", id).Find(&pr)
+
+	db.Model(pr).Updates(project)
+	body, err := json.Marshal(project)
+	checkError(err)
+	// LOG CURRENT OPERATION
+	msg := LogOperation(body, "UPDATE", "PROJECT")
+	_ = db.Close()
+	return msg
+}
+
+func DeleteProject(id string) []byte {
+	db := ConnectToMysql()
 	var project Project
 	db.Where("id = ?", id).Find(&project)
 	db.Delete(project)
+
+	body, err := json.Marshal(project)
+	checkError(err)
+	// LOG CURRENT OPERATION
+	msg := LogOperation(body, "DELETE", "PROJECT")
 	_ = db.Close()
+	return msg
 }
 
-// edit project
-func UpdateProject(w ResponseWriter, r *Request) {
-	db := ConnectToMysql()
-	vars := mux.Vars(r)
-	id := vars["id"]
-	var project Project
-	var newProj Project
-
-	body, err := ioutil.ReadAll(r.Body)
-	defer r.Body.Close()
-
-	if err != nil || json.Unmarshal(body, &newProj) != nil {
-		Error(w, err.Error(), 500)
-		return
-	}
-
-	db.Where("id = ?", id).Find(&project)
-
-	project.Title = newProj.Title
-	db.Save(project)
-	_ = db.Close()
+func LogOperation(body []byte, OpType string, DataType string) []byte {
+	var operations []Operation
+	operations = append(operations, Operation{Data: body, OpType: OpType, DataType: DataType, Sequence: time.Now()})
+	message := Message{RequestType: "SYNC", Operations: operations}
+	msg, _ := json.Marshal(message)
+	CreateOperation(operations[0])
+	return msg
 }
