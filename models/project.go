@@ -46,18 +46,18 @@ func GetProject(id string) Project {
 	return project
 }
 
-func CreateProject(project Project) []byte {
+func CreateProject(project Project, timestamp time.Time) []byte {
 	db := ConnectToMysql()
 	db.Create(&project)
 	body, err := json.Marshal(project)
 	checkError(err)
 	// LOG CURRENT OPERATION
-	msg := LogOperation(body, "CREATE", "PROJECT")
+	msg := LogOperation(body, "CREATE", "PROJECT", timestamp)
 	_ = db.Close()
 	return msg
 }
 
-func UpdateProject(id string, project Project) []byte {
+func UpdateProject(id string, project Project, timestamp time.Time) []byte {
 	db := ConnectToMysql()
 	var pr Project
 	db.Where("id = ?", id).Find(&pr)
@@ -66,12 +66,12 @@ func UpdateProject(id string, project Project) []byte {
 	body, err := json.Marshal(project)
 	checkError(err)
 	// LOG CURRENT OPERATION
-	msg := LogOperation(body, "UPDATE", "PROJECT")
+	msg := LogOperation(body, "UPDATE", "PROJECT", timestamp)
 	_ = db.Close()
 	return msg
 }
 
-func DeleteProject(id string) []byte {
+func DeleteProject(id string, timestamp time.Time) []byte {
 	db := ConnectToMysql()
 	var project Project
 	db.Where("id = ?", id).Find(&project)
@@ -80,14 +80,14 @@ func DeleteProject(id string) []byte {
 	body, err := json.Marshal(project)
 	checkError(err)
 	// LOG CURRENT OPERATION
-	msg := LogOperation(body, "DELETE", "PROJECT")
+	msg := LogOperation(body, "DELETE", "PROJECT", timestamp)
 	_ = db.Close()
 	return msg
 }
 
-func LogOperation(body []byte, OpType string, DataType string) []byte {
+func LogOperation(body []byte, OpType string, DataType string, timestamp time.Time) []byte {
 	var operations []Operation
-	operations = append(operations, Operation{Data: body, OpType: OpType, DataType: DataType, Sequence: time.Now()})
+	operations = append(operations, Operation{Data: body, OpType: OpType, DataType: DataType, Sequence: timestamp})
 	message := Message{RequestType: "SYNC", Operations: operations, Port: utility.PORT}
 	msg, _ := json.Marshal(message)
 	CreateOperation(operations[0])

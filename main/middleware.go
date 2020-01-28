@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	. "github.com/gorilla/mux"
+	"github.com/streadway/amqp"
 	"io/ioutil"
 	. "kanban-distributed-system/commons"
 	. "kanban-distributed-system/message-queue"
@@ -16,7 +17,7 @@ import (
 * this program tracks nodes states
  */
 
-var server []string
+var servers []string
 
 func HandleError(err error) {
 	if err != nil {
@@ -24,12 +25,14 @@ func HandleError(err error) {
 	}
 }
 
-func AddServer(port string) {
-	println("Registering ", port)
-	connection := CreateConnection() // message queue
+var lastServer = 0
 
-	server = append(server, port)
-	msg, err := json.Marshal(server)
+func AddServer(connection *amqp.Connection, port string) {
+	println("Registering ", port)
+
+	servers = append(servers, port)
+
+	msg, err := json.Marshal(servers)
 
 	var operations []Operation
 	operations = append(operations, Operation{
@@ -44,16 +47,16 @@ func AddServer(port string) {
 	}
 	msg, _ = json.Marshal(message)
 	HandleError(err)
-	for _, p := range server {
-		channel := CreateChannel(connection, p)
-		PublishMessage(channel, msg, p)
+	for i, port := range servers {
+		channel := CreateChannel(connection, port)
+		PublishMessage(channel, msg, servers[i])
 		_ = channel.Close()
 	}
-
 }
 
-func handleRequest() *Router {
+func handleRequest(connection *amqp.Connection) *Router {
 	router := NewRouter()
+
 	router.HandleFunc("/", func(writer ResponseWriter, request *Request) {
 		body, err := ioutil.ReadAll(request.Body)
 		defer request.Body.Close()
@@ -63,14 +66,19 @@ func handleRequest() *Router {
 		HandleError(err)
 		fmt.Println(msg)
 		if msg.RequestType == "REG" { // let 1 be register new node
-			AddServer(msg.Port)
+			AddServer(connection, msg.Port)
 		}
 
 	}).Methods("POST")
 
+	router.HandleFunc("/port", func(writer ResponseWriter, request *Request) {
+		json.NewEncoder(writer).Encode(lastServer)
+		lastServer++
+	}).Methods("GET")
 	return router
 }
 func main() {
+	connection := CreateConnection() // message queue
 	println("hold on..")
-	log.Fatal(ListenAndServe(":9865", handleRequest()))
+	log.Fatal(ListenAndServe(":9865", handleRequest(connection)))
 }

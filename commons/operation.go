@@ -7,10 +7,11 @@ import (
 )
 
 type Operation struct {
-	Sequence time.Time
-	OpType   string // UPDATE, CREATE, DELETE
-	DataType string // is it task or project
-	Data     []byte // marshalled data
+	id       int       `gorm:"AUTO_INCREMENT;column:id;primary_key"`
+	Sequence time.Time `gorm:"unique"`
+	OpType   string    // UPDATE, CREATE, DELETE
+	DataType string    // is it task or project
+	Data     []byte    // marshalled data
 }
 
 func GetOperations(datetime time.Time) []Operation {
@@ -31,7 +32,6 @@ func CreateOperation(operation Operation) {
 func GetLatestOperation() Operation {
 	db := config.ConnectToMysql()
 	var operation Operation
-	db.First(&operation)
-	fmt.Println("LATEST", operation)
+	db.Order("sequence desc").First(&operation)
 	return operation
 }

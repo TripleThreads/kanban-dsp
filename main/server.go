@@ -2,6 +2,7 @@ package main
 
 import (
 	. "github.com/gorilla/mux"
+	"github.com/rs/cors"
 	. "kanban-distributed-system/message-queue"
 	. "kanban-distributed-system/migration"
 	. "kanban-distributed-system/request-handlers"
@@ -29,6 +30,7 @@ func routes() *Router {
 	router.HandleFunc("/tasks/create", CreateTaskHandler).Methods("POST")
 	router.HandleFunc("/tasks/{ID}", DeleteTaskHandler).Methods("DELETE")
 	router.HandleFunc("/tasks/{ID}", UpdateTaskHandler).Methods("PUT")
+
 	return router
 }
 
@@ -53,6 +55,5 @@ func main() {
 
 	go UpdateMe(writeChan, PORT)
 
-	log.Fatal(ListenAndServe(PORT, routes()))
-
+	log.Fatal(ListenAndServe(PORT, cors.Default().Handler(routes())))
 }

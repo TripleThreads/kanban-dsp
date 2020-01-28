@@ -37,18 +37,18 @@ func GetTask(id string) Task {
 }
 
 // new task
-func CreateTask(task Task) []byte {
+func CreateTask(task Task, timestamp time.Time) []byte {
 	db := ConnectToMysql()
 	db.Create(&task)
 	_ = db.Close()
 	msg, err := json.Marshal(task)
 	checkError(err)
-	LogOperation(msg, "CREATE", "TASK")
+	LogOperation(msg, "CREATE", "TASK", timestamp)
 	return msg
 }
 
 // delete task
-func DeleteTask(id string) []byte {
+func DeleteTask(id string, timestamp time.Time) []byte {
 	db := ConnectToMysql()
 	var task Task
 	db.Where("id = ?", id).Find(&task)
@@ -56,12 +56,12 @@ func DeleteTask(id string) []byte {
 	_ = db.Close()
 	msg, err := json.Marshal(task)
 	checkError(err)
-	LogOperation(msg, "DELETE", "TASK")
+	LogOperation(msg, "DELETE", "TASK", timestamp)
 	return msg
 }
 
 // edit task
-func UpdateTask(id string, task Task) []byte {
+func UpdateTask(id string, task Task, timestamp time.Time) []byte {
 	db := ConnectToMysql()
 	var tk Task
 	db.Where("id = ?", id).Find(&tk)
@@ -71,6 +71,6 @@ func UpdateTask(id string, task Task) []byte {
 	_ = db.Close()
 	msg, err := json.Marshal(task)
 	checkError(err)
-	LogOperation(msg, "CREATE", "TASK")
+	LogOperation(msg, "CREATE", "TASK", timestamp)
 	return msg
 }

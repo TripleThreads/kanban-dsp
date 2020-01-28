@@ -40,13 +40,6 @@ func CreateChannel(connection *amqp.Connection, bindAddress string) *amqp.Channe
 		panic("error declaring the queue: " + err.Error())
 	}
 
-	// We bind the queue to the exchange to send and receive data from the queue
-	err = channel.QueueBind(bindAddress, "#", "events", false, nil)
-
-	if err != nil {
-		panic("error binding to the queue: " + err.Error())
-	}
-
 	return channel
 }
 
@@ -59,13 +52,11 @@ func PublishMessage(channel *amqp.Channel, msg []byte, port string) {
 	}
 
 	// We publish the message to the exchange we created earlier
-	err := channel.Publish("events", port, false, false, message)
+	err := channel.Publish("", port, false, false, message)
 
 	if err != nil {
 		panic("error publishing a message to the queue:" + err.Error())
 	}
-
-	_ = channel.Close()
 }
 
 func ConsumeMessage(channel *amqp.Channel, port string) {
