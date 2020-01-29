@@ -8,6 +8,7 @@ import (
 	. "kanban-distributed-system/commons"
 	. "kanban-distributed-system/config"
 	"kanban-distributed-system/utility"
+	"strconv"
 	"time"
 )
 
@@ -58,11 +59,15 @@ func CreateProject(project Project, timestamp time.Time) []byte {
 }
 
 func UpdateProject(id string, project Project, timestamp time.Time) []byte {
-	db := ConnectToMysql()
 	var pr Project
-	db.Where("id = ?", id).Find(&pr)
 
+	db := ConnectToMysql()
+	db.Where("id = ?", id).Find(&pr)
 	db.Model(pr).Updates(project)
+
+	ID, _ := strconv.Atoi(id)
+	project.ID = uint(ID)
+
 	body, err := json.Marshal(project)
 	checkError(err)
 	// LOG CURRENT OPERATION
@@ -72,11 +77,16 @@ func UpdateProject(id string, project Project, timestamp time.Time) []byte {
 }
 
 func DeleteProject(id string, timestamp time.Time) []byte {
-	db := ConnectToMysql()
 	var project Project
+
+	db := ConnectToMysql()
 	db.Where("id = ?", id).Find(&project)
 	db.Delete(project)
 
+	ID, _ := strconv.Atoi(id)
+	project.ID = uint(ID)
+
+	println("id number ", ID)
 	body, err := json.Marshal(project)
 	checkError(err)
 	// LOG CURRENT OPERATION

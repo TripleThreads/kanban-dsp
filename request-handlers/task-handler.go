@@ -43,10 +43,17 @@ func CreateTaskHandler(w http.ResponseWriter, r *http.Request) {
 	var task Task
 	body, err := ioutil.ReadAll(r.Body)
 	defer r.Body.Close()
-	if err != nil || json.Unmarshal(body, &task) != nil {
+	if err != nil {
 		http.Error(w, err.Error(), 500)
 		return
 	}
+	err = json.Unmarshal(body, &task)
+	if err != nil {
+		fmt.Println(err)
+		http.Error(w, err.Error(), 500)
+		return
+	}
+
 	msg := CreateTask(task, time.Now())
 	json.NewEncoder(w).Encode(task)
 	PropagateUpdate(msg, PORT)

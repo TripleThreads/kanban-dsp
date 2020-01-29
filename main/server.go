@@ -29,7 +29,7 @@ func routes() *Router {
 	router.HandleFunc("/tasks/{ID}", GetTaskHandler).Methods("GET")
 	router.HandleFunc("/tasks/create", CreateTaskHandler).Methods("POST")
 	router.HandleFunc("/tasks/{ID}", DeleteTaskHandler).Methods("DELETE")
-	router.HandleFunc("/tasks/{ID}", UpdateTaskHandler).Methods("PUT")
+	router.HandleFunc("/tasks/{ID}", UpdateTaskHandler).Methods("PATCH")
 
 	return router
 }
@@ -55,5 +55,5 @@ func main() {
 
 	go UpdateMe(writeChan, PORT)
 
-	log.Fatal(ListenAndServe(PORT, cors.Default().Handler(routes())))
+	log.Fatal(ListenAndServe(PORT, cors.AllowAll().Handler(routes())))
 }

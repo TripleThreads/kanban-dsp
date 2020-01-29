@@ -2,17 +2,16 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	. "kanban-distributed-system/config"
+	"strconv"
 	"time"
 )
 
 type Task struct {
 	gorm.Model
-	Title     string    `json:"title"`
-	Period    time.Time `json:"time"`
+	Title     string `json:"title"`
 	ProjectId uint
 	Project   Project `gorm:"association_foreignkey:Id"`
 	Stage     uint8
@@ -49,10 +48,14 @@ func CreateTask(task Task, timestamp time.Time) []byte {
 
 // delete task
 func DeleteTask(id string, timestamp time.Time) []byte {
-	db := ConnectToMysql()
 	var task Task
+	db := ConnectToMysql()
 	db.Where("id = ?", id).Find(&task)
 	db.Delete(task)
+
+	ID, _ := strconv.Atoi(id)
+	task.ID = uint(ID)
+
 	_ = db.Close()
 	msg, err := json.Marshal(task)
 	checkError(err)
@@ -62,15 +65,18 @@ func DeleteTask(id string, timestamp time.Time) []byte {
 
 // edit task
 func UpdateTask(id string, task Task, timestamp time.Time) []byte {
-	db := ConnectToMysql()
 	var tk Task
+
+	db := ConnectToMysql()
 	db.Where("id = ?", id).Find(&tk)
-	fmt.Println(id)
-	fmt.Println(task)
 	db.Model(&tk).Updates(&task)
+
+	ID, _ := strconv.Atoi(id)
+	task.ID = uint(ID)
+
 	_ = db.Close()
 	msg, err := json.Marshal(task)
 	checkError(err)
-	LogOperation(msg, "CREATE", "TASK", timestamp)
+	LogOperation(msg, "UPDATE", "TASK", timestamp)
 	return msg
 }

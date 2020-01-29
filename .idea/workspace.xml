@@ -4,7 +4,7 @@
     <list default="true" id="0e2b9424-da92-4d37-b2e2-e20bd42ed62c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/commons/operation.go" beforeDir="false" afterPath="$PROJECT_DIR$/commons/operation.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main/middleware.go" beforeDir="false" afterPath="$PROJECT_DIR$/main/middleware.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/db_connection.go" beforeDir="false" afterPath="$PROJECT_DIR$/config/db_connection.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/main/server.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/message-queue/message-que.go" beforeDir="false" afterPath="$PROJECT_DIR$/message-queue/message-que.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/message-queue/translate-message.go" beforeDir="false" afterPath="$PROJECT_DIR$/message-queue/translate-message.go" afterDir="false" />
@@ -98,17 +98,18 @@
     <MESSAGE value="initial commit" />
     <MESSAGE value="task is added&#10;bug fixed" />
     <MESSAGE value="tested and working for single process" />
-    <option name="LAST_COMMIT_MESSAGE" value="tested and working for single process" />
+    <MESSAGE value="bug fixed" />
+    <option name="LAST_COMMIT_MESSAGE" value="bug fixed" />
   </component>
   <component name="WindowStateProjectService">
     <state x="384" y="1" width="596" height="731" key="#go_build_kanban-distributed-system/main" timestamp="1579985639235">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
     <state x="384" y="1" width="596" height="731" key="#go_build_kanban-distributed-system/main/0.0.1366.732@0.0.1366.732" timestamp="1579985639235" />
-    <state x="281" y="0" key="CommitChangelistDialog2" timestamp="1580163059735">
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2" timestamp="1580223182581">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="281" y="0" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1580163059735" />
+    <state x="281" y="0" width="803" height="732" key="CommitChangelistDialog2/0.0.1366.732@0.0.1366.732" timestamp="1580223182581" />
     <state width="1320" height="172" key="GridCell.Tab.0.bottom" timestamp="1580065103556">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
@@ -129,10 +130,10 @@
       <screen x="0" y="0" width="1366" height="732" />
     </state>
     <state x="459" y="79" width="446" height="577" key="RollbackChangesDialog/0.0.1366.732@0.0.1366.732" timestamp="1580188775173" />
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1580163063239">
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2" timestamp="1580223188823">
       <screen x="0" y="0" width="1366" height="732" />
     </state>
-    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1580163063239" />
+    <state x="279" y="100" key="Vcs.Push.Dialog.v2/0.0.1366.732@0.0.1366.732" timestamp="1580223188823" />
     <state x="429" y="0" key="refactoring.ChangeSignatureDialog" timestamp="1580126035636">
       <screen x="0" y="0" width="1366" height="732" />
     </state>

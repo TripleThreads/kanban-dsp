@@ -11,13 +11,13 @@ type Operation struct {
 	Sequence time.Time `gorm:"unique"`
 	OpType   string    // UPDATE, CREATE, DELETE
 	DataType string    // is it task or project
-	Data     []byte    // marshalled data
+	Data     []byte    `gorm:"unique"` // marshalled data
 }
 
 func GetOperations(datetime time.Time) []Operation {
 	db := config.ConnectToMysql()
 	var operations []Operation
-	db.Where("sequence > DATE(?)", datetime).Find(&operations)
+	db.Raw("SELECT * FROM operations WHERE Date(sequence) > Date(?) order by sequence asc", datetime).Scan(&operations)
 	fmt.Println("latest ", operations)
 	_ = db.Close()
 	return operations

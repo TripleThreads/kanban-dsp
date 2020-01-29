@@ -14,7 +14,7 @@ import (
 func enableCors(w *ResponseWriter) {
 
 	(*w).Header().Set("Access-Control-Allow-Origin", "*")
-	(*w).Header().Set("Access-Control-Allow-Headers", "application/json")
+	(*w).Header().Set("Access-Control-Allow-Headers", "*")
 }
 
 // new project

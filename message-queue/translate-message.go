@@ -6,6 +6,7 @@ import (
 	"github.com/streadway/amqp"
 	"kanban-distributed-system/commons"
 	"kanban-distributed-system/models"
+	"strconv"
 	"time"
 )
 
@@ -129,17 +130,17 @@ func projectHandler(operation commons.Operation) {
 	err := json.Unmarshal(operation.Data, &project)
 	checkError(err)
 	println("hmm")
-	fmt.Println(project)
 	if operation.OpType == CREATE {
 		models.CreateProject(project, operation.Sequence)
 	}
 
 	if operation.OpType == UPDATE {
-		models.UpdateProject(string(project.ID), project, operation.Sequence)
+		models.UpdateProject(strconv.Itoa(int(project.ID)), project, operation.Sequence)
 	}
 
 	if operation.OpType == DELETE {
-		models.DeleteProject(string(project.ID), operation.Sequence)
+		fmt.Println(operation)
+		models.DeleteProject(strconv.Itoa(int(project.ID)), operation.Sequence)
 	}
 }
 
@@ -147,16 +148,18 @@ func taskHandler(operation commons.Operation) {
 	var task models.Task
 	err := json.Unmarshal(operation.Data, &task)
 	checkError(err)
+	println("task")
+	fmt.Println(task)
 	if operation.OpType == CREATE {
 		models.CreateTask(task, operation.Sequence)
 	}
 
 	if operation.OpType == UPDATE {
-		models.UpdateTask(string(task.ID), task, operation.Sequence)
+		models.UpdateTask(strconv.Itoa(int(task.ID)), task, operation.Sequence)
 	}
 
 	if operation.OpType == DELETE {
-		models.DeleteTask(string(task.ID), operation.Sequence)
+		models.DeleteTask(strconv.Itoa(int(task.ID)), operation.Sequence)
 	}
 }
 
